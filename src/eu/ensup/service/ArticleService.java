@@ -10,19 +10,19 @@ public class ArticleService {
         this.dao = new ArticleDao();
     }
 
-    Integer create(Article article){
+    public Integer create(Article article){
         return this.dao.create(article);
     }
 
-    Article get(String reference){
+    public Article get(String reference){
         return this.dao.get(reference);
     }
 
-    Integer update(Article article){
+    public Integer update(Article article){
         return this.dao.update(article);
     }
 
-    Integer delete(String reference){
+    public Integer delete(String reference){
         return this.dao.delete(reference);
     }
 }
