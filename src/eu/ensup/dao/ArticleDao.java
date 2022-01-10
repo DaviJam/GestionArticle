@@ -5,7 +5,7 @@ import eu.ensup.domaine.Article;
 public class ArticleDao {
     public ArticleDao() {
     }
-    Integer Create(Article article){
+    Integer create(Article article){
         System.out.println("New article "+article.getReference()+" added to database.");
         return 0;
     }
