@@ -7,12 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class DemoBeansConfig {
-
-    @Bean(initMethod = "initialisation", destroyMethod = "destruction")
-    public ArticleService articleService() {
-        return new ArticleService(articleDaoJpa());
-    }
+public class BeansDaoConfig {
 
     @Bean(initMethod = "initialisation", destroyMethod = "destruction")
     public ArticleDao articleDao() {
