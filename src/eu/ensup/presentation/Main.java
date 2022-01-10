@@ -10,5 +10,7 @@ public class Main {
         // Article {nom, qty, prix unitaire, categorie, référence}
         Article article = new Article("Haribo", 25, 2.5f, "Bonbon", "ref-sec-001");
         ArticleService service = new ArticleService();
+        service.create(article);
+
     }
 }
