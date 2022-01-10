@@ -1,16 +1,19 @@
 package eu.ensup.container;
 
 import eu.ensup.service.ArticleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import(BeansDaoConfig.class)
+
 public class BeansServiceConfig {
-    private BeansDaoConfig demoBeansConfig;
+
+    @Autowired
+    private BeansDaoConfig beansdaoconfig;
+
     @Bean(initMethod = "initialisation", destroyMethod = "destruction")
     public ArticleService articleService() {
-        return new ArticleService(demoBeansConfig.articleDaoJpa());
+        return new ArticleService(beansdaoconfig.articleDaoJpa());
     }
 }
