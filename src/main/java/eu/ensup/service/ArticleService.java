@@ -37,4 +37,21 @@ public class ArticleService {
 
         idao.delete(reference);
     }
+
+
+    public IDao getiDao() {
+        return idao;
+    }
+
+    public void setiDao(IDao iDao) {
+        this.idao = iDao;
+    }
+
+    public void initialisation() {
+        System.out.println("SERVICE: creation spring");
+    }
+
+    public void destruction() {
+        System.out.println("SERVICE: destruction spring");
+    }
 }

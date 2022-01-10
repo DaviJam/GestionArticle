@@ -2,7 +2,7 @@ package eu.ensup.dao;
 
 import eu.ensup.domaine.Article;
 
-public class ArticleDao implements IDao {
+public class ArticleDaoJpa implements IDao {
     @Override
     public Article get(String reference) {
         System.out.println("DAO: Récupération de l'article " + reference);
@@ -28,5 +28,13 @@ public class ArticleDao implements IDao {
     public Integer delete(String reference) {
         System.out.println("DAO: Suppression de l'article " + reference);
         return null;
+    }
+
+    public void initialisation() {
+        System.out.println("DAO: creation spring");
+    }
+
+    public void destruction() {
+        System.out.println("DAO: destruction spring");
     }
 }

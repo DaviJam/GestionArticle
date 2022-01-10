@@ -2,11 +2,11 @@ package eu.ensup.dao;
 
 import eu.ensup.domaine.Article;
 
-public class ArticleDaoJpa implements IDao {
+public class ArticleDao implements IDao {
     @Override
     public Article get(String reference) {
         System.out.println("DAO: Récupération de l'article " + reference);
-        if (reference == "ref-bonbon-002") {
+        if (reference == "ref-bonbon-001") {
             return new Article("Haribo", 10, 12.5f,"bonbon","ref-bonbon-001"); // MOCK SGBDR
         }
         return null;
@@ -28,5 +28,13 @@ public class ArticleDaoJpa implements IDao {
     public Integer delete(String reference) {
         System.out.println("DAO: Suppression de l'article " + reference);
         return null;
+    }
+
+    public void initialisation() {
+        System.out.println("DAO: creation spring");
+    }
+
+    public void destruction() {
+        System.out.println("DAO: destruction spring");
     }
 }

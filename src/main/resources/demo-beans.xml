@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="articleDaoJpa" class="eu.ensup.dao.ArticleDaoJpa" init-method="initialisation" destroy-method="destruction">
+	</bean>
+	
+	<bean id="articleDao" class="eu.ensup.dao.ArticleDao" init-method="initialisation" destroy-method="destruction">
+	</bean>
+	
+	<bean id="articleService" class="eu.ensup.service.ArticleService" init-method="initialisation" destroy-method="destruction">
+		<property name="iDao" ref="articleDao"/>
+		<constructor-arg ref="articleDao"/>
+	</bean>
+	
+</beans>

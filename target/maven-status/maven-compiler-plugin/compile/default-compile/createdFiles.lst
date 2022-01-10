@@ -1,0 +1,6 @@
+eu\ensup\service\ArticleService.class
+eu\ensup\domaine\Article.class
+eu\ensup\dao\ArticleDao.class
+eu\ensup\dao\IDao.class
+eu\ensup\dao\ArticleDaoJpa.class
+eu\ensup\launcher\Launcher.class
