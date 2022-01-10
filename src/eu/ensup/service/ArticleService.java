@@ -1,28 +1,40 @@
 package eu.ensup.service;
 
-import eu.ensup.dao.ArticleDao;
+import eu.ensup.dao.IDao;
 import eu.ensup.domaine.Article;
 
 public class ArticleService {
+    private IDao idao;
 
-    private ArticleDao dao;
-    public ArticleService() {
-        this.dao = new ArticleDao();
-    }
-
-    public Integer create(Article article){
-        return this.dao.create(article);
+    public ArticleService(IDao idao){
+        super();
+        this.idao = idao;
     }
 
     public Article get(String reference){
-        return this.dao.get(reference);
+        System.out.println("SERVICE: Récupération de l'article id=" + reference);
+
+        Article articleget = idao.get(reference);
+        return articleget;
     }
 
-    public Integer update(Article article){
-        return this.dao.update(article);
+    public void create(Article article){
+        System.out.println("SERVICE: Création de l'article : " + article.toString());
+
+        idao.create(article);
+
     }
 
-    public Integer delete(String reference){
-        return this.dao.delete(reference);
+    public Article update(Article article){
+        System.out.println("SERVICE: Update de l'article : " + article.toString());
+
+        Article articleupdate = idao.update(article);
+        return articleupdate;
+    }
+
+    public void delete(String reference){
+        System.out.println("SERVICE: Delete de l'article : " + reference);
+
+        idao.delete(reference);
     }
 }

@@ -1,7 +1,5 @@
 package eu.ensup.domaine;
 
-import com.sun.jdi.FloatType;
-
 public class Article {
     private String name;
     private Integer quantity;
