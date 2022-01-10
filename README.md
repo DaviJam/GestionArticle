@@ -21,12 +21,23 @@ Version 14 (A FAIRE) : Mise en oeuvre Spring MVC avec Spring Boot<br>
 
 Chaque version correspondra à un tag github (exemple Version 1 = tag v1). Cela facilitera le passage d'un projet à un autre.<br>
 
-Version 1 : le couplage fort s'apparente à l'instanciation (new) de la classe CompteDao au sein de la classe CompteService. Cela contraint l'utilisation de la classe CompteDao uniquement pour l'utilisation de la classe CompteService. <br>
-Version 2 : le couplage faible s'apparente à l'utilisation d'une interface dao (pas de new). 2 Classes, CompteDao et CompteDaoJpa sont créées à partir de cette interface. Dans la classe de service CompteService, ont utilisation l'interface DAO. Cela permet de décider du type de dao avant l'instanciation du service.
+Version 1 : 
+> le couplage fort s'apparente à l'instanciation (new) de la classe CompteDao au sein de la classe CompteService. Cela contraint l'utilisation de la classe CompteDao uniquement pour l'utilisation de la classe CompteService. <br>
+
+Version 2 : 
+> le couplage faible s'apparente à l'utilisation d'une interface dao (pas de new). 2 Classes, CompteDao et CompteDaoJpa sont créées à partir de cette interface. Dans la classe de service CompteService, ont utilisation l'interface DAO. Cela permet de décider du type de dao avant l'instanciation du service. <br>
+
 Version 3 : 
+> l'injection de dépendance est définie dans le fichier de déclaration de containeur (daobeans.xml) et via la balise Property et les attributs name et ref.
 
-Version 4 : Dans cette version, l'injection de dépendance est définit dans une classe contrairement à la version 3 ou ce dernier était défini dans un fichier XML. De ce fait, le chargement du conteneur se fait en instanciant un objet AnnotationConfigApplicationContext.
+Version 3-bis :
+> Avec 2 fichiers distincts de déclaration de conteneur (beans), la dépendance entre beans se gère en utilisant la balise Property et les attributs name qui est égale au nom de la propriété définie dans la classe utilisant la dépendance et ref égal au nom de la dépencance définie dans le fichier de déclaration du conteneur de ce dernier. Il ne faut pas oublier de définir les méthodes getter et setter de la classe utilisant les dependances.
 
+Version 4 : 
+> Dans cette version, l'injection de dépendance est définit dans une classe contrairement à la version 3 ou ce dernier était défini dans un fichier XML. De ce fait, le chargement du conteneur se fait en instanciant un objet AnnotationConfigApplicationContext.
+
+Version 4-bis : 
+> Avec 2 classes distinctes de configuration (classe annotée @Configuration), l'injection de dépendance peut se faire à l'aide de l'annotation @autowired d'une propriété privée. Cette variable sera une référence vers l'instance qui sera injectée.
 
 ### Projet
 Permettre la gestion d'article dans un magasion d'alimentation générale. 
