@@ -23,6 +23,9 @@ Chaque version correspondra à un tag github (exemple Version 1 = tag v1). Cela 
 
 Version 1 : le couplage fort s'apparente à l'instanciation (new) de la classe CompteDao au sein de la classe CompteService. Cela contraint l'utilisation de la classe CompteDao uniquement pour l'utilisation de la classe CompteService. <br>
 Version 2 : le couplage faible s'apparente à l'utilisation d'une interface dao (pas de new). 2 Classes, CompteDao et CompteDaoJpa sont créées à partir de cette interface. Dans la classe de service CompteService, ont utilisation l'interface DAO. Cela permet de décider du type de dao avant l'instanciation du service.
+Version 3 : 
+
+Version 4 : Dans cette version, l'injection de dépendance est définit dans une classe contrairement à la version 3 ou ce dernier était défini dans un fichier XML. De ce fait, le chargement du conteneur se fait en instanciant un objet AnnotationConfigApplicationContext.
 
 
 ### Projet
