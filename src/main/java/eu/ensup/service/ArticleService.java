@@ -14,6 +14,14 @@ public class ArticleService {
         this.idao = idao;
     }
 
+    public void setIdao(IDao idao){
+        this.idao = idao;
+    }
+
+    public IDao getIdao() {
+        return idao;
+    }
+
     public Article get(String reference){
         System.out.println("SERVICE: Récupération de l'article id=" + reference);
 
