@@ -47,7 +47,7 @@ Chaque version correspondra à un tag github **(exemple Version 1 = tag v1)**. C
 
 Nous avons choisis pour notre projet la gestion des articles alimentaires.
 
-Pour la base de données, nous avons créer une table simple avec les colonnes suivantes :
+Pour la base de données, nous avons créé une table simple avec les colonnes suivantes :
 
  - Name
  - Quantity
