@@ -20,8 +20,8 @@ public class Launcher {
         ArticleService articleService = (ArticleService) applicationContext.getBean("articleService");
 
         // 3. Manipulation du bean avec injection de dependances
-        Article article = new Article("Haribo", 10, 12.5f,"bonbon","ref-bonbon-001");
-        articleService.create(article);
+        Article article = new Article("Chocolat", 30, 12.5f,"bonbon","ref-bonbon-001");
+        articleService.delete("ref-bonbon-021");
 
         Article article2 = articleService.get("ref-bonbon-001");
         if(article2 != null){

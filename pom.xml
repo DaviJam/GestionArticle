@@ -25,7 +25,11 @@
             <version>8.0.27</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>1.2.6</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -1,6 +1,7 @@
 package eu.ensup.dao;
 
 import eu.ensup.domaine.Article;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -9,6 +10,15 @@ public class ArticleDao implements IDao {
 
     private DataSource dataSource;
     private String driverName = "com.mysql.cj.jdbc.Driver";
+    private JdbcTemplate jdbcTemplate;
+
+    public JdbcTemplate getJdbcTemplate() {
+        return jdbcTemplate;
+    }
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public DataSource getDataSource() {
         return dataSource;
@@ -19,109 +29,49 @@ public class ArticleDao implements IDao {
     }
 
     @Override
-    public Article get(String code) {
-//        System.out.println("DAO: Récupération de l'article " + reference);
-//        if (reference == "ref-bonbon-001") {
-//            return new Article("Haribo", 10, 12.5f,"bonbon","ref-bonbon-001"); // MOCK SGBDR
-            // Information d'accès à la base de données
-        Connection cn = null;
-        PreparedStatement st = null;
-        ResultSet rs = null;
-
-        try {
-            // Etape 1 : Chargement du driver
-            Class.forName(driverName);
-
-            // Etape 2 : récupération de la connexion
-            //cn = DriverManager.getConnection(url, login, passwd);
-            cn = this.dataSource.getConnection();
-
-            // Etape 3 : Création d'un statement
-            String sql = "SELECT * FROM article WHERE code='" + code +"'";
-            System.out.println(sql);
-            st = cn.prepareStatement(sql);
-
-            // Etape 4 : exécution requête
-            rs = st.executeQuery();
-
-            // Si récup données alors étapes 5 (parcours Resultset)
-            while (rs.next()) {
-                return new Article(rs.getString("name"), rs.getInt("quantity"), rs.getFloat("price"),
-                        rs.getString("category"),rs.getString("code"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                // Etape 6 : libérer ressources de la mémoire.
-                cn.close();
-                st.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    public Article get(String code) { // String sql = "SELECT * FROM article WHERE code='" + code +"'";
+        Object[] arguments = new Object[1];
+        arguments[0] = code;
+        //jdbcTemplate.get("INSERT INTO public.compte (numero, libelle, codegestion) VALUES (?, ?, ?)", arguments);
 
         return null;
     }
 
     @Override
     public Integer create(Article article) {
-        // Information d'accès à la base de données
-        Connection cn = null;
-        PreparedStatement st = null;
-        Integer rs = null;
 
-        try {
-            // Etape 1 : Chargement du driver
-            Class.forName(driverName);
+        Object[] arguments = new Object[5];
+        arguments[0] = article.getName();
+        arguments[1] = article.getQuantity();
+        arguments[2] = article.getPrice();
+        arguments[3] = article.getCategory();
+        arguments[4] = article.getCode();
+        int result = jdbcTemplate.update("INSERT INTO article(name, quantity, price, category, code) VALUES(?,?,?,?,?)", arguments);
 
-            // Etape 2 : récupération de la connexion
-            //cn = DriverManager.getConnection(url, login, passwd);
-            cn = this.dataSource.getConnection();
-
-            // Etape 3 : Création d'un statement
-            st = cn.prepareStatement("INSERT INTO article(name, quantity, price, category, code) VALUES(?,?,?,?,?)");
-            st.setString(1, article.getName());
-            st.setInt(2, article.getQuantity());
-            st.setFloat(3, article.getPrice());
-            st.setString(4, article.getCategory());
-            st.setString(5, article.getCode());
-
-            // Etape 4 : exécution requête
-            rs = st.executeUpdate();
-
-            // Vérifier le résultat
-            return rs;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                // Etape 6 : libérer ressources de la mémoire.
-                cn.close();
-                st.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return null;
+        return result;
     }
 
     @Override
     public Article update(Article article) {
         System.out.println("DAO: Update de l'article " + article.toString());
+
+        Object[] arguments = new Object[2];
+        arguments[0] = article.getQuantity();
+        arguments[1] = article.getCode();
+        int result = jdbcTemplate.update("UPDATE article SET quantity = ? WHERE code = ?", arguments);
+
+        if(result == 1){return article;}
         return null;
     }
 
     @Override
     public Integer delete(String code) {
         System.out.println("DAO: Suppression de l'article " + code);
-        return null;
+
+        Object[] arguments = new Object[1];
+        arguments[0] = code;
+
+        return jdbcTemplate.update("DELETE FROM article WHERE code = ?", arguments);
     }
 
     public void initialisation() {

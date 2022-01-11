@@ -7,7 +7,7 @@
     </bean>
 
     <bean id="idao" class="eu.ensup.dao.ArticleDao" init-method="initialisation" destroy-method="destruction">
-        <property name="dataSource" ref="dataSource"/>
+        <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="locations">
@@ -21,5 +21,9 @@
         <property name="url" value="${jdbc.url}" />
         <property name="user" value="${jdbc.name}" />
         <property name="password" value="${jdbc.password}" />
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource" />
     </bean>
 </beans>
