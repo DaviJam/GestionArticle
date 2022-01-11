@@ -29,12 +29,19 @@ public class ArticleDao implements IDao {
     }
 
     @Override
-    public Article get(String code) { // String sql = "SELECT * FROM article WHERE code='" + code +"'";
-        Object[] arguments = new Object[1];
-        arguments[0] = code;
-        //jdbcTemplate.get("INSERT INTO public.compte (numero, libelle, codegestion) VALUES (?, ?, ?)", arguments);
-
-        return null;
+    public Article get(String code) {
+        Object[] obj = new Object[1];
+        obj[0] = code;
+        return (Article) jdbcTemplate.queryForObject("SELECT * FROM article WHERE code=?",obj,
+                (resultSet, rowNum) -> {
+                    Article article = new Article(
+                            resultSet.getString("name"),
+                            resultSet.getInt("quantity"),
+                            resultSet.getFloat("price"),
+                            resultSet.getString("category"),
+                            resultSet.getString("code"));
+                    return article;
+                });
     }
 
     @Override
