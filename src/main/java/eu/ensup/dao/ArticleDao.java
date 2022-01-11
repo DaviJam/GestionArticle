@@ -7,7 +7,7 @@ import java.sql.*;
 public class ArticleDao implements IDao {
 
     private String driverName = "com.mysql.cj.jdbc.Driver";
-    private String url = "jdbc:mysql://127.0.0.1:3309/gestionarticle";
+    private String url = "jdbc:mysql://127.0.0.1:3306/gestionarticle";
     //private String url = "jdbc:postgresql://152101lp6v.csh-dijon.ramage:5435/spring";
     private String login = "spring";
     private String passwd = "spring";
@@ -107,6 +107,45 @@ public class ArticleDao implements IDao {
     @Override
     public Article update(Article article) {
         System.out.println("DAO: Update de l'article " + article.toString());
+        System.out.println("DAO: Update de l'article " + article.toString());
+        // Information d'accès à la base de données
+        Connection cn = null;
+        PreparedStatement st = null;
+        Integer rs = null;
+
+        try {
+            // Etape 1 : Chargement du driver
+            Class.forName(driverName);
+
+            // Etape 2 : récupération de la connexion
+            //cn = DriverManager.getConnection(url, login, passwd);
+            cn = DriverManager.getConnection(url, login, passwd);
+
+            // Etape 3 : Création d'un statement
+            st = cn.prepareStatement("UPDATE article SET quantity = ? WHERE code = ?");
+            st.setInt(1, article.getQuantity());
+            st.setString(2, article.getCode());
+
+            // Etape 4 : exécution requête
+            rs = st.executeUpdate();
+
+            // Vérifier le résultat
+            System.out.println("Update : " + rs);
+            return article;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                // Etape 6 : libérer ressources de la mémoire.
+                cn.close();
+                st.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return null;
     }
 
