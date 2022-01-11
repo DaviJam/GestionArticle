@@ -1,141 +1,66 @@
 package eu.ensup.dao;
 
+import com.mysql.cj.jdbc.PreparedStatementWrapper;
 import eu.ensup.domaine.Article;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 
 import javax.sql.DataSource;
 import java.sql.*;
 
 public class ArticleDao implements IDao {
     @Autowired
-    private DataSource dataSource;
+    private JdbcTemplate jdbcTemplate;
 
-    public DataSource getDataSource() {
-        return dataSource;
+    public JdbcTemplate getJdbcTemplate() {
+        return jdbcTemplate;
     }
 
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public Article get(String code) {
-//        System.out.println("DAO: Récupération de l'article " + reference);
-//        if (reference == "ref-bonbon-001") {
-//            return new Article("Haribo", 10, 12.5f,"bonbon","ref-bonbon-001"); // MOCK SGBDR
-            // Information d'accès à la base de données
-        Connection cn = null;
-        PreparedStatement st = null;
-        ResultSet rs = null;
-
-        try {
-            // Etape 2 : récupération de la connexion
-            cn = dataSource.getConnection();
-
-            // Etape 3 : Création d'un statement
-            String sql = "SELECT * FROM article WHERE code='" + code +"'";
-            System.out.println(sql);
-            st = cn.prepareStatement(sql);
-
-            // Etape 4 : exécution requête
-            rs = st.executeQuery();
-
-            // Si récup données alors étapes 5 (parcours Resultset)
-            while (rs.next()) {
-                return new Article(rs.getString("name"), rs.getInt("quantity"), rs.getFloat("price"),
-                        rs.getString("category"),rs.getString("code"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                // Etape 6 : libérer ressources de la mémoire.
-                cn.close();
-                st.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return null;
+        String sql = "SELECT * FROM article WHERE code=?";
+        Object[] obj = new Object[1];
+        obj[0] = code;
+        return this.jdbcTemplate.queryForObject(sql,(rs, rowNum) -> {
+            Article article = new Article(
+                    rs.getString("name"),
+                    rs.getInt("quantity"),
+                    rs.getFloat("price"),
+                    rs.getString("category"),
+                    rs.getString("code"));
+            return article;
+        },obj);
     }
 
     @Override
     public Integer create(Article article) {
-        // Information d'accès à la base de données
-        Connection cn = null;
-        PreparedStatement st = null;
-        Integer rs = null;
-
-        try {
-            // Etape 2 : récupération de la connexion
-            cn = dataSource.getConnection();
-
-            // Etape 3 : Création d'un statement
-            st = cn.prepareStatement("INSERT INTO article(name, quantity, price, category, code) VALUES(?,?,?,?,?)");
-            st.setString(1, article.getName());
-            st.setInt(2, article.getQuantity());
-            st.setFloat(3, article.getPrice());
-            st.setString(4, article.getCategory());
-            st.setString(5, article.getCode());
-
-            // Etape 4 : exécution requête
-            rs = st.executeUpdate();
-
-            // Vérifier le résultat
-            return rs;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                // Etape 6 : libérer ressources de la mémoire.
-                cn.close();
-                st.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return null;
+        Object[] obj = new Object[5];
+        obj[0] = article.getName();
+        obj[1] = article.getQuantity();
+        obj[2] = article.getPrice();
+        obj[3] = article.getCategory();
+        obj[4] = article.getCode();
+        String sql = "INSERT INTO article(name, quantity, price, category, code) VALUES(?,?,?,?,?)";
+        return this.jdbcTemplate.update(sql,obj);
     }
 
     @Override
     public Article update(Article article) {
-        System.out.println("DAO: Update de l'article " + article.toString());
-        // Information d'accès à la base de données
-        Connection cn = null;
-        PreparedStatement st = null;
-        Integer rs = null;
-
-        try {
-            // Etape 2 : récupération de la connexion
-            cn = dataSource.getConnection();
-
-            // Etape 3 : Création d'un statement
-            st = cn.prepareStatement("UPDATE article SET quantity = ? WHERE code = ?");
-            st.setInt(1, article.getQuantity());
-            st.setString(2, article.getCode());
-
-            // Etape 4 : exécution requête
-            rs = st.executeUpdate();
-
-            // Vérifier le résultat
-            System.out.println("Update : " + rs);
-            return article;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                // Etape 6 : libérer ressources de la mémoire.
-                cn.close();
-                st.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return null;
+        Object[] obj = new Object[5];
+        obj[0] = article.getName();
+        obj[1] = article.getQuantity();
+        obj[2] = article.getPrice();
+        obj[3] = article.getCategory();
+        obj[4] = article.getCode();
+        String sql = "UPDATE article SET name=?, quantity=?, price=?, category=? WHERE code=?";
+        this.jdbcTemplate.update(sql,obj);
+        return article;
     }
 
     @Override
