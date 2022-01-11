@@ -2,15 +2,21 @@ package eu.ensup.dao;
 
 import eu.ensup.domaine.Article;
 
+import javax.sql.DataSource;
 import java.sql.*;
 
 public class ArticleDao implements IDao {
 
+    private DataSource dataSource;
     private String driverName = "com.mysql.cj.jdbc.Driver";
-    private String url = "jdbc:mysql://127.0.0.1:3309/gestionarticle";
-    //private String url = "jdbc:postgresql://152101lp6v.csh-dijon.ramage:5435/spring";
-    private String login = "spring";
-    private String passwd = "spring";
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
     public Article get(String code) {
@@ -27,7 +33,8 @@ public class ArticleDao implements IDao {
             Class.forName(driverName);
 
             // Etape 2 : récupération de la connexion
-            cn = DriverManager.getConnection(url, login, passwd);
+            //cn = DriverManager.getConnection(url, login, passwd);
+            cn = this.dataSource.getConnection();
 
             // Etape 3 : Création d'un statement
             String sql = "SELECT * FROM article WHERE code='" + code +"'";
@@ -71,7 +78,8 @@ public class ArticleDao implements IDao {
             Class.forName(driverName);
 
             // Etape 2 : récupération de la connexion
-            cn = DriverManager.getConnection(url, login, passwd);
+            //cn = DriverManager.getConnection(url, login, passwd);
+            cn = this.dataSource.getConnection();
 
             // Etape 3 : Création d'un statement
             st = cn.prepareStatement("INSERT INTO article(name, quantity, price, category, code) VALUES(?,?,?,?,?)");
