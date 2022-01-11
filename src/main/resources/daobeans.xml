@@ -6,6 +6,16 @@
     <bean id="articleDaoJpa" class="eu.ensup.dao.ArticleDaoJpa" init-method="initialisation" destroy-method="destruction">
     </bean>
 
-    <bean id="articleDao" class="eu.ensup.dao.ArticleDao" init-method="initialisation" destroy-method="destruction">
+    <bean id="idao" class="eu.ensup.dao.ArticleDao" init-method="initialisation" destroy-method="destruction">
+        <property name="dataSource" ref="dataSource"/>
     </bean>
+
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+
+        <property name="jdbcUrl" value="jdbc:postgresql://localhost:5432/gestionarticle" />
+        <property name="username" value="postgres" />
+        <property name="password" value="yamine" />
+
+    </bean>
+
 </beans>
