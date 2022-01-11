@@ -2,8 +2,10 @@ package eu.ensup.service;
 
 import eu.ensup.dao.IDao;
 import eu.ensup.domaine.Article;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ArticleService {
+
     private IDao idao;
 
     public ArticleService(){

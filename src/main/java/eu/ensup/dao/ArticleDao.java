@@ -7,7 +7,7 @@ import java.sql.*;
 public class ArticleDao implements IDao {
 
     private String driverName = "com.mysql.cj.jdbc.Driver";
-    private String url = "jdbc:mysql://127.0.0.1:3306/gestionarticle";
+    private String url = "jdbc:mysql://127.0.0.1:3309/gestionarticle";
     //private String url = "jdbc:postgresql://152101lp6v.csh-dijon.ramage:5435/spring";
     private String login = "spring";
     private String passwd = "spring";
