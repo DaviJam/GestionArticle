@@ -6,6 +6,6 @@
     <bean id="articleDaoJpa" class="eu.ensup.dao.ArticleDaoJpa" init-method="initialisation" destroy-method="destruction">
     </bean>
 
-    <bean id="articleDao" class="eu.ensup.dao.ArticleDao" init-method="initialisation" destroy-method="destruction">
+    <bean id="idao" class="eu.ensup.dao.ArticleDao" init-method="initialisation" destroy-method="destruction">
     </bean>
 </beans>

@@ -19,6 +19,13 @@
             <artifactId>spring-context</artifactId>
             <version>5.2.18.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.27</version>
+        </dependency>
+
+
     </dependencies>
 
 </project>

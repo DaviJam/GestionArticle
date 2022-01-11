@@ -5,14 +5,14 @@ public class Article {
     private Integer quantity;
     private Float price;
     private String category;
-    private String reference;
+    private String code;
 
-    public Article(String name, Integer quantity, Float price, String category, String reference) {
+    public Article(String name, Integer quantity, Float price, String category, String code) {
         this.name = name;
         this.quantity = quantity;
         this.price = price;
         this.category = category;
-        this.reference = reference;
+        this.code = code;
     }
 
     public String getName() {
@@ -47,12 +47,12 @@ public class Article {
         this.category = category;
     }
 
-    public String getReference() {
-        return reference;
+    public String getCode() {
+        return code;
     }
 
-    public void setReference(String reference) {
-        this.reference = reference;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class Article {
                 ", quantity=" + quantity +
                 ", price=" + price +
                 ", category='" + category + '\'' +
-                ", reference='" + reference + '\'' +
+                ", reference='" + code + '\'' +
                 '}';
     }
 }
