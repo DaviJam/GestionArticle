@@ -9,10 +9,17 @@
     <bean id="idao" class="eu.ensup.dao.ArticleDao" init-method="initialisation" destroy-method="destruction">
         <property name="dataSource" ref="dataSource"/>
     </bean>
+    <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:db.properties</value>
+            </list>
+        </property>
+    </bean>
 
     <bean id="dataSource" class="com.mysql.cj.jdbc.MysqlDataSource">
-        <property name="url" value="jdbc:mysql://127.0.0.1:3309/gestionarticle" />
-        <property name="user" value="spring" />
-        <property name="password" value="spring" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="user" value="${jdbc.name}" />
+        <property name="password" value="${jdbc.password}" />
     </bean>
 </beans>
