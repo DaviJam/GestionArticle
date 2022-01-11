@@ -1,15 +1,19 @@
 package eu.ensup.dao;
 
 import eu.ensup.domaine.Article;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
 
+@Repository
 public class ArticleDao implements IDao {
 
     private DataSource dataSource;
     private String driverName = "com.mysql.cj.jdbc.Driver";
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     public JdbcTemplate getJdbcTemplate() {

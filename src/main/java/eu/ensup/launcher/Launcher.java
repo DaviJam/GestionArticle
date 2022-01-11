@@ -14,7 +14,7 @@ public class Launcher {
 
         // 1. Chargement du conteneur en 4.0.0 Spring
         ConfigurableApplicationContext applicationContext = (ConfigurableApplicationContext) new ClassPathXmlApplicationContext(
-                "daobeans.xml","servicebeans.xml");
+                "daobeans.xml");
 
         // 2. Recuperation d'un bean du conteneur
         ArticleService articleService = (ArticleService) applicationContext.getBean("articleService");

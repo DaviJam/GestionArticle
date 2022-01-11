@@ -2,8 +2,14 @@ package eu.ensup.service;
 
 import eu.ensup.dao.IDao;
 import eu.ensup.domaine.Article;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ArticleService {
+    @Autowired
+    @Qualifier("articleDao")
     private IDao idao;
 
     public ArticleService(){
