@@ -1,6 +1,7 @@
 package eu.ensup.launcher;
 
 import eu.ensup.beans.DaoBeans;
+import eu.ensup.beans.DataSourceBeans;
 import eu.ensup.beans.ServiceBeans;
 import eu.ensup.container.BeansServiceConfig;
 import eu.ensup.container.BeansDaoConfig;
@@ -16,7 +17,7 @@ public class Launcher {
 
         // 1. Chargement du conteneur en 4.0.0 Spring
         ConfigurableApplicationContext applicationContext = (ConfigurableApplicationContext) new AnnotationConfigApplicationContext(
-                DaoBeans.class, ServiceBeans.class);
+                DaoBeans.class, ServiceBeans.class, DataSourceBeans.class);
 
         // 2. Recuperation d'un bean du conteneur
         ArticleService articleService = (ArticleService) applicationContext.getBean("articleService");

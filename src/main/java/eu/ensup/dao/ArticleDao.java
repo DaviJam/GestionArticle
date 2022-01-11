@@ -1,16 +1,22 @@
 package eu.ensup.dao;
 
 import eu.ensup.domaine.Article;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.sql.DataSource;
 import java.sql.*;
 
 public class ArticleDao implements IDao {
+    @Autowired
+    private DataSource dataSource;
 
-    private String driverName = "com.mysql.cj.jdbc.Driver";
-    private String url = "jdbc:mysql://127.0.0.1:3309/gestionarticle";
-    //private String url = "jdbc:postgresql://152101lp6v.csh-dijon.ramage:5435/spring";
-    private String login = "spring";
-    private String passwd = "spring";
+    public DataSource getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     @Override
     public Article get(String code) {
@@ -23,11 +29,8 @@ public class ArticleDao implements IDao {
         ResultSet rs = null;
 
         try {
-            // Etape 1 : Chargement du driver
-            Class.forName(driverName);
-
             // Etape 2 : récupération de la connexion
-            cn = DriverManager.getConnection(url, login, passwd);
+            cn = dataSource.getConnection();
 
             // Etape 3 : Création d'un statement
             String sql = "SELECT * FROM article WHERE code='" + code +"'";
@@ -43,8 +46,6 @@ public class ArticleDao implements IDao {
                         rs.getString("category"),rs.getString("code"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -67,11 +68,8 @@ public class ArticleDao implements IDao {
         Integer rs = null;
 
         try {
-            // Etape 1 : Chargement du driver
-            Class.forName(driverName);
-
             // Etape 2 : récupération de la connexion
-            cn = DriverManager.getConnection(url, login, passwd);
+            cn = dataSource.getConnection();
 
             // Etape 3 : Création d'un statement
             st = cn.prepareStatement("INSERT INTO article(name, quantity, price, category, code) VALUES(?,?,?,?,?)");
@@ -89,8 +87,6 @@ public class ArticleDao implements IDao {
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } finally {
             try {
                 // Etape 6 : libérer ressources de la mémoire.
@@ -107,19 +103,14 @@ public class ArticleDao implements IDao {
     @Override
     public Article update(Article article) {
         System.out.println("DAO: Update de l'article " + article.toString());
-        System.out.println("DAO: Update de l'article " + article.toString());
         // Information d'accès à la base de données
         Connection cn = null;
         PreparedStatement st = null;
         Integer rs = null;
 
         try {
-            // Etape 1 : Chargement du driver
-            Class.forName(driverName);
-
             // Etape 2 : récupération de la connexion
-            //cn = DriverManager.getConnection(url, login, passwd);
-            cn = DriverManager.getConnection(url, login, passwd);
+            cn = dataSource.getConnection();
 
             // Etape 3 : Création d'un statement
             st = cn.prepareStatement("UPDATE article SET quantity = ? WHERE code = ?");
@@ -133,8 +124,6 @@ public class ArticleDao implements IDao {
             System.out.println("Update : " + rs);
             return article;
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             try {
