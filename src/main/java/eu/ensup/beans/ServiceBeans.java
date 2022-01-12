@@ -9,11 +9,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ServiceBeans {
 
-    @Autowired
-    private ArticleDao articleDao;
-
     @Bean
     ArticleService articleService(){
-        return new ArticleService(articleDao);
+        return new ArticleService();
     }
 }

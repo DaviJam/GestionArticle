@@ -1,27 +1,38 @@
 package eu.ensup.beans;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
+
+import com.zaxxer.hikari.HikariDataSource;
+import com.zaxxer.hikari.util.DriverDataSource;
+import org.postgresql.Driver;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+
 import javax.sql.DataSource;
 
 @Configuration
+@PropertySource("classpath:db.properties")
+
 public class DataSourceBeans {
-//    <bean id="datasource1"
-//    class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-//		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-//		<property name="url" value="jdbc:mysql://localhost/formation" />
-//		<property name="username" value="root" />
-//		<property name="password" value="" />
-//	</bean>
+    @Value("${spring.demo.userName}")
+    String userName;
+    @Value("${spring.demo.url}")
+    String url;
+    @Value("${spring.demo.password}")
+    String password;
+
+
 
     @Bean
     public DataSource dataSource (){
-        MysqlDataSource mysqlDataSource = new MysqlDataSource();
-        mysqlDataSource.setUser("spring");
-        mysqlDataSource.setPassword("spring");
-        mysqlDataSource.setUrl("jdbc:mysql://127.0.0.1:3309/gestionarticle");
-        return mysqlDataSource;
+
+        HikariDataSource hikariDataSource = new HikariDataSource();
+           hikariDataSource.setUsername(userName);
+           hikariDataSource.setPassword(password);
+           hikariDataSource.setJdbcUrl(url);
+
+        return hikariDataSource;
     }
 
 }

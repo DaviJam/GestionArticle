@@ -3,9 +3,13 @@ package eu.ensup.service;
 import eu.ensup.dao.IDao;
 import eu.ensup.domaine.Article;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+
+import java.util.ArrayList;
 
 public class ArticleService {
-
+    @Autowired
+    @Qualifier("articleDao")
     private IDao idao;
 
     public ArticleService(){
@@ -51,6 +55,11 @@ public class ArticleService {
         idao.delete(reference);
     }
 
+    public ArrayList<Article> getAll() {
+        System.out.println("SERVICE: get All des articles : " );
+
+        return  idao.getAll();
+    }
     public void initialisation() {
         System.out.println("SERVICE: creation spring");
     }
@@ -58,4 +67,6 @@ public class ArticleService {
     public void destruction() {
         System.out.println("SERVICE: destruction spring");
     }
+
+
 }

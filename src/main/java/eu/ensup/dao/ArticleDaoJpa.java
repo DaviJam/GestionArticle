@@ -2,6 +2,8 @@ package eu.ensup.dao;
 
 import eu.ensup.domaine.Article;
 
+import java.util.ArrayList;
+
 public class ArticleDaoJpa implements IDao {
     @Override
     public Article get(String reference) {
@@ -27,6 +29,11 @@ public class ArticleDaoJpa implements IDao {
     @Override
     public Integer delete(String reference) {
         System.out.println("DAO: Suppression de l'article " + reference);
+        return null;
+    }
+
+    @Override
+    public ArrayList<Article> getAll() {
         return null;
     }
 

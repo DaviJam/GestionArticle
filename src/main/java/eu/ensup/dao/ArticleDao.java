@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
 
 public class ArticleDao implements IDao {
     @Autowired
@@ -20,16 +21,14 @@ public class ArticleDao implements IDao {
 
     @Override
     public Article get(String code) {
-//        System.out.println("DAO: Récupération de l'article " + reference);
-//        if (reference == "ref-bonbon-001") {
-//            return new Article("Haribo", 10, 12.5f,"bonbon","ref-bonbon-001"); // MOCK SGBDR
-            // Information d'accès à la base de données
+
         Connection cn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
 
         try {
             // Etape 2 : récupération de la connexion
+           System.out.println( getDataSource());
             cn = dataSource.getConnection();
 
             // Etape 3 : Création d'un statement
@@ -141,6 +140,48 @@ public class ArticleDao implements IDao {
     @Override
     public Integer delete(String code) {
         System.out.println("DAO: Suppression de l'article " + code);
+        return null;
+    }
+
+    @Override
+    public ArrayList<Article> getAll() {
+        Connection cn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        ArrayList<Article> list = new ArrayList<>();
+
+        try {
+            // Etape 2 : récupération de la connexion
+            System.out.println( getDataSource());
+            cn = dataSource.getConnection();
+
+            // Etape 3 : Création d'un statement
+            String sql = "SELECT * FROM article";
+            System.out.println(sql);
+            st = cn.prepareStatement(sql);
+
+            // Etape 4 : exécution requête
+            rs = st.executeQuery();
+
+            // Si récup données alors étapes 5 (parcours Resultset)
+            while (rs.next()) {
+                list.add(new Article(rs.getString("name"), rs.getInt("quantity"), rs.getFloat("price"),
+                        rs.getString("category"),rs.getString("code")));
+            }
+            return list;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                // Etape 6 : libérer ressources de la mémoire.
+                cn.close();
+                st.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
         return null;
     }
 

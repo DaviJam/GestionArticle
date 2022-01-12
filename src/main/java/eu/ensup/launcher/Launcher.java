@@ -11,6 +11,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.util.ArrayList;
+
 public class Launcher {
 
     public static void main(String[] args) {
@@ -25,8 +27,13 @@ public class Launcher {
         // 3. Manipulation du bean avec injection de dependances
         Article article = new Article("Haribo", 10, 12.5f,"bonbon","ref-bonbon-001");
         //articleService.create(article);
-        articleService.update(new Article("Haribo", 15, 12.5f,"bonbon","ref-bonbon-001"));
-        Article article2 = articleService.get("ref-bonbon-001");
+       articleService.update(new Article("Haribo", 15, 12.5f,"bonbon","ref-bonbon-001"));
+       Article article2 = articleService.get("ref-bonbon-001");
+
+
+        for ( Article element: articleService.getAll()) {
+            System.out.println(element);
+        }
         if(article2 != null){
             System.out.println("LAUNCHER: Récupération de l'article réussie : " + article2.toString());
         } else
